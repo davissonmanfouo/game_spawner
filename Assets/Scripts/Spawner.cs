@@ -3,7 +3,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField]
-    private Obstacle ObstaclePrefab;
+    private Obstacle[] ObstaclePrefabs;
 
     [SerializeField]
     private Vector2 SpawnBounds;
@@ -38,12 +38,30 @@ public class Spawner : MonoBehaviour
 
     private void SpawnSphere()
     {
-        Obstacle o = Instantiate(ObstaclePrefab, transform);
+        Obstacle prefab = GetRandomObstaclePrefab();
+        if (prefab == null)
+        {
+            return;
+        }
+
+        Obstacle o = Instantiate(prefab, transform);
         o.transform.localPosition = new Vector3(
             Random.Range(-SpawnBounds.x, SpawnBounds.x),
             Random.Range(-SpawnBounds.y, SpawnBounds.y),
             0);
         o.SetSpeedMultiplier(GetDifficulty());
+    }
+
+    private Obstacle GetRandomObstaclePrefab()
+    {
+        if (ObstaclePrefabs == null || ObstaclePrefabs.Length == 0)
+        {
+            Debug.LogWarning("Spawner has no obstacle prefabs assigned.", this);
+            return null;
+        }
+
+        int index = Random.Range(0, ObstaclePrefabs.Length);
+        return ObstaclePrefabs[index];
     }
 
     private float GetDifficulty()

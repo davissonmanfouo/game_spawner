@@ -567,6 +567,7 @@ MonoBehaviour:
   GameOverScreen: {fileID: 677005883}
   ScorePerSecond: 10
   DifficultyIncreasePerSecond: 0.03
+  MaxDifficulty: 3
 --- !u!4 &353692786
 Transform:
   m_ObjectHideFlags: 0
@@ -1582,9 +1583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbee193fa382ab4a966316c75b82d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
-  ObstaclePrefab: {fileID: 3954130545569895389, guid: 045725f9f2d8b6a43addd26477891438, type: 3}
+  ObstaclePrefabs:
+  - {fileID: 3954130545569895389, guid: 045725f9f2d8b6a43addd26477891438, type: 3}
+  - {fileID: 3954130545569895389, guid: 3af9e9d5deb5945a99630983b5d814dc, type: 3}
+  - {fileID: 3954130545569895389, guid: 3ac10d3af1ee6435688da17a6539b56d, type: 3}
   SpawnBounds: {x: 13.5, y: 6.2}
   SpawnDelay: {x: 0.2, y: 1}
+  GameManager: {fileID: 0}
 --- !u!1 &1563318551
 GameObject:
   m_ObjectHideFlags: 0
