@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private const string HighScoreKey = "HighScore";
+
     [SerializeField]
     private TextMeshProUGUI ScoreText;
 
@@ -27,8 +29,12 @@ public class GameManager : MonoBehaviour
 
     private float _scoreProgress;
 
+    private int _highScore;
+
     private void Start()
     {
+        _highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+
         UpdateScoreText();
 
         if (GameOverScreen != null)
@@ -56,10 +62,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         IsGameOver = true;
+        SaveHighScore();
 
         if (FinalScoreText != null)
         {
-            FinalScoreText.text = "Score final: " + Score;
+            FinalScoreText.text = "Score final: " + Score + "\nMeilleur score: " + _highScore;
         }
 
         if (GameOverScreen != null)
@@ -72,7 +79,19 @@ public class GameManager : MonoBehaviour
     {
         if (ScoreText != null)
         {
-            ScoreText.text = "Score: " + Score;
+            ScoreText.text = "Score: " + Score + "\nMeilleur: " + _highScore;
         }
+    }
+
+    private void SaveHighScore()
+    {
+        if (Score <= _highScore)
+        {
+            return;
+        }
+
+        _highScore = Score;
+        PlayerPrefs.SetInt(HighScoreKey, _highScore);
+        PlayerPrefs.Save();
     }
 }
