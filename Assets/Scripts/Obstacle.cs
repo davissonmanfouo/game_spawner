@@ -27,4 +27,9 @@ public class Obstacle : MonoBehaviour
         Destroy(gameObject);
         return Damages;
     }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        Speed *= multiplier;
+    }
 }

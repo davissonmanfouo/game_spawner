@@ -11,16 +11,28 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private Vector2 SpawnDelay;
 
+    [SerializeField]
+    private GameManager GameManager;
+
     private float _nextSpawn;
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        if (GameManager == null)
+        {
+            GameManager = FindFirstObjectByType<GameManager>();
+        }
+    }
+
     void Update()
     {
         if(Time.time > _nextSpawn)
         {
             SpawnSphere();
 
-            _nextSpawn = Time.time + Random.Range(SpawnDelay.x, SpawnDelay.y);
+            float difficulty = GetDifficulty();
+            float delay = Random.Range(SpawnDelay.x, SpawnDelay.y) / difficulty;
+            _nextSpawn = Time.time + delay;
         }
     }
 
@@ -31,6 +43,17 @@ public class Spawner : MonoBehaviour
             Random.Range(-SpawnBounds.x, SpawnBounds.x),
             Random.Range(-SpawnBounds.y, SpawnBounds.y),
             0);
+        o.SetSpeedMultiplier(GetDifficulty());
+    }
+
+    private float GetDifficulty()
+    {
+        if (GameManager == null)
+        {
+            return 1f;
+        }
+
+        return GameManager.Difficulty;
     }
 
     private void OnDrawGizmosSelected()

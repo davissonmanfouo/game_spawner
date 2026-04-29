@@ -24,6 +24,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject GameOverScreen;
 
+    [SerializeField]
+    private GameManager GameManager;
+
+    private void Awake()
+    {
+        if (GameManager == null)
+        {
+            GameManager = FindFirstObjectByType<GameManager>();
+        }
+    }
+
     void OnMove(InputValue value)
     {
         _movement = value.Get<Vector2>();
@@ -51,7 +62,14 @@ public class Player : MonoBehaviour
             if (HP <= 0)
             {
                 enabled = false;
-                GameOverScreen.SetActive(true);
+                if (GameManager != null)
+                {
+                    GameManager.GameOver();
+                }
+                else if (GameOverScreen != null)
+                {
+                    GameOverScreen.SetActive(true);
+                }
             }
         }
     }
